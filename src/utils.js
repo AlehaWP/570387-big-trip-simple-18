@@ -12,6 +12,7 @@ const randomElement = (arr) => {
 };
 
 const pointDate = (dueDate) => dayjs(dueDate).format('MMM D');
+const editPointDateTime = (dueDate) => dayjs(dueDate).format('DD/MM/YYYY HH:MM');
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
-export {getRandomInteger, pointDate, pointTime, randomElement};
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement};

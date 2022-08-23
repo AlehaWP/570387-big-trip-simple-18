@@ -1,20 +1,19 @@
 import { getRandomInteger, randomElement } from '../utils.js';
-import { POINT_COUNT } from './const.js';
+import { POINT_COUNT } from '../const.js';
 
+const cities = [
+  'Prague',
+  'London',
+  'Moskow',
+  'Berlin',
+  'Bejong',
+  'New York',
+  'Madrid',
+  'Rome',
+];
 
-const randomCity = () => {
-  const cities = [
-    'Prague',
-    'London',
-    'Moskow',
-    'Berlin',
-    'Bejong',
-    'New York',
-    'Madrid',
-    'Rome',
-  ];
-  return randomElement(cities);
-};
+const randomCity = () => randomElement(cities);
+
 
 const randomDescription = () => {
   const descriptions = [
@@ -29,6 +28,8 @@ const randomDescription = () => {
   ];
   return randomElement(descriptions);
 };
+
+export const getDestinations = () => cities;
 
 export const generateDestination = (id) => {
   const name = randomCity();

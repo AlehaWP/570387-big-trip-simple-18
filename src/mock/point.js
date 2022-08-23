@@ -1,5 +1,5 @@
 import {getRandomInteger, randomElement } from '../utils.js';
-import {POINT_TYPES, POINT_COUNT} from './const.js';
+import {POINT_TYPES, POINT_COUNT} from '../const.js';
 import dayjs from 'dayjs';
 
 
