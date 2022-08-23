@@ -6,7 +6,12 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
+const randomElement = (arr) => {
+  const randomIndex = getRandomInteger(0, arr.length - 1);
+  return arr[randomIndex];
+};
+
 const pointDate = (dueDate) => dayjs(dueDate).format('MMM D');
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
-export {getRandomInteger, pointDate, pointTime};
+export {getRandomInteger, pointDate, pointTime, randomElement};
