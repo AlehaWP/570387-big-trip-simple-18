@@ -3,29 +3,27 @@ import {POINT_TYPES, POINT_COUNT} from './const.js';
 import dayjs from 'dayjs';
 
 
-const getRandomType = () => {
-  return randomElement(POINT_TYPES);
-};
+const getRandomType = () => randomElement(POINT_TYPES);
 
 const generateDate = (dateStart = '') => {
   const dateFrom = (dateStart) ?
     dayjs(dateStart) :
-    dayjs(); 
+    dayjs();
   const randomDayPeriod = getRandomInteger(0, 30);
   const randomHourPeriod = getRandomInteger(0, 12);
   return dateFrom.add(randomDayPeriod, 'day').add(randomHourPeriod, 'hour').toISOString();
-}
+};
 
 
 const offers = {
   maxOffers: POINT_COUNT,
   generateRandomID() {
-    return getRandomInteger(0, this.maxOffers);
+    return getRandomInteger(1, this.maxOffers);
   },
   generate() {
-    return [...new Set(Array.from({length: getRandomInteger(0, this.maxOffers)}, this.generateRandomID, this))]
+    return [...new Set(Array.from({length: getRandomInteger(0, this.maxOffers)}, this.generateRandomID, this))];
   }
-}
+};
 
 
 export const generatePoint = () => {
@@ -39,4 +37,4 @@ export const generatePoint = () => {
     offers: offers.generate(),
     destination: getRandomInteger(1, POINT_COUNT)
   };
-}
+};

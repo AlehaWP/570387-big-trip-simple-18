@@ -1,7 +1,21 @@
 import { createElement } from '../render.js';
-import {pointDate, pointTime} from '../utils.js'
+import {pointDate, pointTime} from '../utils.js';
 
-const createPointemplate = (point, offers, destination) => {
+const createOffersList = (offers) => {
+  let result = '';
+  for (const offer of offers) {
+    result += `
+      <li class="event__offer">
+        <span class="event__offer-title">${offer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${offer.price}</span>
+      </li>    
+    `;
+  }
+  return result;
+};
+
+const createPointTemplate = (point, offers, destination) => {
   const {type, basePrice, dateFrom, dateTo} = point;
   const {name} = destination;
   return (
@@ -24,16 +38,7 @@ const createPointemplate = (point, offers, destination) => {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
-          <li class="event__offer">
-            <span class="event__offer-title">Add luggage</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">30</span>
-          </li>
-          <li class="event__offer">
-            <span class="event__offer-title">Switch to comfort</span>
-            &plus;&euro;&nbsp;
-            <span class="event__offer-price">100</span>
-          </li>
+          ${createOffersList(offers)}
         </ul>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
@@ -52,7 +57,7 @@ export default class PointView {
   }
 
   getTemplate() {
-    return createPointemplate(this.point, this.offers, this.destination);
+    return createPointTemplate(this.point, this.offers, this.destination);
   }
 
   getElement() {

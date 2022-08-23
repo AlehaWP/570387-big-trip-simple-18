@@ -10,9 +10,7 @@ export default class PointsModel {
 
   getPoints = () => this.#points;
 
-  getOffers = (point) => {
-    point.offers.map((offerid) => this.#offers.find((offer) => offer.id === offerid));
-  };
+  getOffers = (point) => point.offers.map((offerid) => this.#offers.find((offer) => offer.id === offerid));
 
   getDestination = (point) => this.#destinations.find((destination) => destination.id === point.destination);
   // getDestination = (point) => this.#destinations.find((destination) => destination.id === point.destination);
