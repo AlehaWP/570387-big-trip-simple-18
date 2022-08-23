@@ -12,7 +12,7 @@ export default class TripEventsPresenter {
 
   init = (container, pointsModel) => {
     this.container = container;
-    this.pointsBorder = [...pointsModel.getPoints()];
+    this.pointsBorder = [...pointsModel.get()];
     render(this.sort, this.container);
     render(this.pointList, this.sort.getElement(), RenderPosition.AFTEREND);
     render(new EditPointView(), this.pointList.getElement());

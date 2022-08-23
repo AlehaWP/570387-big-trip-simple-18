@@ -1,4 +1,5 @@
 import {getRandomInteger} from '../utils.js';
+import dayjs from 'dayjs';
 
 
 const generateType = () => {
@@ -8,13 +9,40 @@ const generateType = () => {
   return types[randomIndex];
 };
 
-const generatePoint = () => ({
-  id: getRandomInteger(),
-  type: generateType(),
+const generateDate = (dateStart = '') => {
+  const dateFrom = (dateStart) ?
+    dayjs(dateStart) :
+    dayjs(); 
+  const randomDayPeriod = getRandomInteger(0, 30);
+  const randomHourPeriod = getRandomInteger(0, 12);
+  return dateFrom.add(randomDayPeriod, 'day').add(randomHourPeriod, 'hour').toISOString();
+}
 
-});
 
-export {generatePoint};
+const offers = {
+  maxOffers: 3,
+  generateRandomID() {
+    return getRandomInteger(0, this.maxOffers);
+  },
+  generate() {
+    return [...new Set(Array.from({length: getRandomInteger(0, this.maxOffers)}, this.generateRandomID, this))]
+  }
+}
+
+
+export const generatePoint = () => {
+  const startDate = generateDate();
+  return {
+    id: getRandomInteger(1, 20),
+    basePrice: getRandomInteger(500, 5000),
+    type: generateType(),
+    dateFrom: startDate,
+    dateTo: generateDate(startDate),
+    offers: offers.generate(),
+    destination: getRandomInteger(1, 3)
+  };
+}
+
 
 // {
 //   'base_price': 1100,
