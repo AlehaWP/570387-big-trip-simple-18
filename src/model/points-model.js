@@ -7,12 +7,17 @@ export default class PointsModel {
   #points = Array.from({length:POINT_COUNT}, generatePoint);
   #offers = Array.from({length:POINT_COUNT}, (_value, key) => generateOffer(key + 1));
   #destinations = Array.from({length:POINT_COUNT}, (_value, key) => generateDestination(key + 1));
+  #destinationList = getDestinations();
 
-  getPoints = () => this.#points;
+  get points() {
+    return [...this.#points];
+  }
 
   getOffers = (point) => point.offers.map((offerid) => this.#offers.find((offer) => offer.id === offerid));
 
   getDestination = (point) => this.#destinations.find((destination) => destination.id === point.destination);
 
-  getDestinationList = () => getDestinations();
+  get destinationList() {
+    return this.#destinationList;
+  }
 }

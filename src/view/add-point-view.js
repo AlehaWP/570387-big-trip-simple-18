@@ -1,18 +1,12 @@
 import { createElement } from '../render.js';
 import { POINT_TYPES } from '../const.js';
 
-const createTypeListTemplate = () => {
-  let result = '';
-  for (const type of POINT_TYPES) {
-    result += `
-      <div class="event__type-item">
-        <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
-        <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
-      </div>
-    `;
-  }
-  return result;
-};
+const createTypeListTemplate = () => POINT_TYPES.map((type) =>
+  `<div class="event__type-item">
+      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
+   </div>`
+).join('');
 
 const createDestinationListTemplate = (destinationList) => {
   let result = '';
@@ -146,19 +140,20 @@ const createAddPointTemplate = (destinationList) => (
 
 
 export default class AddPointView {
+  #element = null;
   constructor (destinationList) {
     this.destinationList = destinationList;
   }
 
-  getTemplate() {
+  #getTemplate() {
     return createAddPointTemplate(this.destinationList);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.#getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 }
