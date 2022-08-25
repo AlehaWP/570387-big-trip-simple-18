@@ -115,6 +115,7 @@ const createEditPointemplate = (point, offers, destination, destinationList) => 
 
 
 export default class EditPointView {
+  #element = null;
   constructor (point, offers, destination, destinationList) {
     this.point = point;
     this.offers = offers;
@@ -122,15 +123,15 @@ export default class EditPointView {
     this.destinationList = destinationList;
   }
 
-  getTemplate() {
+  #getTemplate() {
     return createEditPointemplate(this.point, this.offers, this.destination, this.destinationList);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.#getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 }

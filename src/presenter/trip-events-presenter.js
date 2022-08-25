@@ -13,12 +13,11 @@ export default class TripEventsPresenter {
   init = (container, pointsModel) => {
     this.pointsModel = pointsModel;
     this.container = container;
-    this.pointsBorder = [...pointsModel.getPoints()];
-    this.destinationList = this.pointsModel.getDestinationList();
+    this.pointsBorder = pointsModel.points;
 
     render(this.sort, this.container);
-    render(this.pointList, this.sort.getElement(), RenderPosition.AFTEREND);
-    render(new AddPointView(this.destinationList ), this.pointList.getElement());
+    render(this.pointList, this.sort.element, RenderPosition.AFTEREND);
+    render(new AddPointView(this.pointsModel.destinationList), this.pointList.element);
 
     const firstPoint = this.pointsBorder[0];
     this.pointsBorder.shift();
@@ -26,8 +25,8 @@ export default class TripEventsPresenter {
       firstPoint ,
       this.pointsModel.getOffers(firstPoint ),
       this.pointsModel.getDestination(firstPoint),
-      this.destinationList
-    ), this.pointList.getElement());
+      this.pointsModel.destinationList
+    ), this.pointList.element);
 
     for (const point of this.pointsBorder) {
       render(
@@ -35,7 +34,7 @@ export default class TripEventsPresenter {
           point,
           this.pointsModel.getOffers(point),
           this.pointsModel.getDestination(point)
-        ), this.pointList.getElement());
+        ), this.pointList.element);
     }
   };
 }

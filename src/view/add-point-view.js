@@ -146,19 +146,20 @@ const createAddPointTemplate = (destinationList) => (
 
 
 export default class AddPointView {
+  #element = null;
   constructor (destinationList) {
     this.destinationList = destinationList;
   }
 
-  getTemplate() {
+  #getTemplate() {
     return createAddPointTemplate(this.destinationList);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.#getTemplate());
     }
 
-    return this.element;
+    return this.#element;
   }
 }
