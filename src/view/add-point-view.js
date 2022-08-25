@@ -3,8 +3,8 @@ import { POINT_TYPES } from '../const.js';
 
 const createTypeListTemplate = () => POINT_TYPES.map((type) =>
   `<div class="event__type-item">
-      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
-      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
+      <input id="event-type-${type}-0" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-0">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
    </div>`
 ).join('');
 
@@ -23,11 +23,11 @@ const createAddPointTemplate = (destinationList) => (
     <form class="event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
-          <label class="event__type  event__type-btn" for="event-type-toggle-1">
+          <label class="event__type  event__type-btn" for="event-type-toggle-0">
             <span class="visually-hidden">Choose event type</span>
             <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
           </label>
-          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-0" type="checkbox">
 
           <div class="event__type-list">
             <fieldset class="event__type-group">
@@ -39,29 +39,29 @@ const createAddPointTemplate = (destinationList) => (
         </div>
 
         <div class="event__field-group  event__field-group--destination">
-          <label class="event__label  event__type-output" for="event-destination-1">
+          <label class="event__label  event__type-output" for="event-destination-0">
             Flight
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Geneva" list="destination-list-1">
-          <datalist id="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-0" type="text" name="event-destination" value="Geneva" list="destination-list-0">
+          <datalist id="destination-list-0">
             ${createDestinationListTemplate(destinationList)}
           </datalist>
         </div>
 
         <div class="event__field-group  event__field-group--time">
-          <label class="visually-hidden" for="event-start-time-1">From</label>
-          <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="19/03/19 00:00">
+          <label class="visually-hidden" for="event-start-time-0">From</label>
+          <input class="event__input  event__input--time" id="event-start-time-0" type="text" name="event-start-time" value="19/03/19 00:00">
           &mdash;
-          <label class="visually-hidden" for="event-end-time-1">To</label>
-          <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="19/03/19 00:00">
+          <label class="visually-hidden" for="event-end-time-0">To</label>
+          <input class="event__input  event__input--time" id="event-end-time-0" type="text" name="event-end-time" value="19/03/19 00:00">
         </div>
 
         <div class="event__field-group  event__field-group--price">
-          <label class="event__label" for="event-price-1">
+          <label class="event__label" for="event-price-0">
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="">
+          <input class="event__input  event__input--price" id="event-price-0" type="text" name="event-price" value="">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -73,8 +73,8 @@ const createAddPointTemplate = (destinationList) => (
 
           <div class="event__available-offers">
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-              <label class="event__offer-label" for="event-offer-luggage-1">
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-0" type="checkbox" name="event-offer-luggage" checked>
+              <label class="event__offer-label" for="event-offer-luggage-0">
                 <span class="event__offer-title">Add luggage</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">30</span>
@@ -82,8 +82,8 @@ const createAddPointTemplate = (destinationList) => (
             </div>
 
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-              <label class="event__offer-label" for="event-offer-comfort-1">
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-0" type="checkbox" name="event-offer-comfort" checked>
+              <label class="event__offer-label" for="event-offer-comfort-0">
                 <span class="event__offer-title">Switch to comfort class</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">100</span>
@@ -91,8 +91,8 @@ const createAddPointTemplate = (destinationList) => (
             </div>
 
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-1" type="checkbox" name="event-offer-meal">
-              <label class="event__offer-label" for="event-offer-meal-1">
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-meal-0" type="checkbox" name="event-offer-meal">
+              <label class="event__offer-label" for="event-offer-meal-0">
                 <span class="event__offer-title">Add meal</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">15</span>
@@ -100,8 +100,8 @@ const createAddPointTemplate = (destinationList) => (
             </div>
 
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-              <label class="event__offer-label" for="event-offer-seats-1">
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-0" type="checkbox" name="event-offer-seats">
+              <label class="event__offer-label" for="event-offer-seats-0">
                 <span class="event__offer-title">Choose seats</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">5</span>
@@ -109,8 +109,8 @@ const createAddPointTemplate = (destinationList) => (
             </div>
 
             <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-              <label class="event__offer-label" for="event-offer-train-1">
+              <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-0" type="checkbox" name="event-offer-train">
+              <label class="event__offer-label" for="event-offer-train-0">
                 <span class="event__offer-title">Travel by train</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">40</span>

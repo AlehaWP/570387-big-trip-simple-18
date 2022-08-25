@@ -4,10 +4,11 @@ import PointListView from '../view/point-list-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import AddPointView from '../view/add-point-view';
 import PointView from '../view/point-view';
+import NoPointsView from '../view/no-points-view';
 
 export default class TripEventsPresenter {
-  #sort = new SortView();
-  #pointList = new PointListView();
+  #sort = null;
+  #pointList = null;
   #pointsModel = null;
   #container = null;
   #pointsBorder = null;
@@ -17,6 +18,14 @@ export default class TripEventsPresenter {
     this.#container = container;
     this.#pointsBorder = this.#pointsModel.points;
 
+    if (this.#pointsBorder.length === 0) {
+      render(new(NoPointsView), this.#container);
+      return;
+    }
+
+
+    this.#sort = new SortView();
+    this.#pointList = new PointListView();
     render(this.#sort, this.#container);
     render(this.#pointList, this.#sort.element, RenderPosition.AFTEREND);
     render(new AddPointView(this.#pointsModel.destinationList), this.#pointList.element);
