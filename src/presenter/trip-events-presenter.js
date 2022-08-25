@@ -21,22 +21,45 @@ export default class TripEventsPresenter {
     render(this.#pointList, this.#sort.element, RenderPosition.AFTEREND);
     render(new AddPointView(this.#pointsModel.destinationList), this.#pointList.element);
 
-    const firstPoint = this.#pointsBorder[0];
-    this.#pointsBorder.shift();
-    render(new EditPointView(
-      firstPoint ,
-      this.#pointsModel.getOffers(firstPoint ),
-      this.#pointsModel.getDestination(firstPoint),
-      this.#pointsModel.destinationList
-    ), this.#pointList.element);
 
     for (const point of this.#pointsBorder) {
-      render(
-        new PointView(
-          point,
-          this.#pointsModel.getOffers(point),
-          this.#pointsModel.getDestination(point)
-        ), this.#pointList.element);
+      const pointComponent = new PointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point));
+      const pointButton = pointComponent.element.querySelector('.event__rollup-btn');
+
+      const newEditPointComponent = () => {
+        const editPointComponent = new EditPointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point),this.#pointsModel.destinationList);
+        const btn = editPointComponent.element.querySelector('.event__rollup-btn');
+
+        const replaceEditFormToCard = (evt) => {
+          evt.preventDefault();
+          this.#pointList.element.replaceChild(pointComponent.element, editPointComponent.element);
+        };
+
+        const onEscKeyDown = (evt) => {
+          if (evt.key === 'Escape' || evt.key === 'Esc') {
+            replaceEditFormToCard(evt);
+            document.removeEventListener('keydown', onEscKeyDown);
+          }
+        };
+
+        btn.addEventListener('click', (evt) => {
+          evt.preventDefault(evt);
+          this.#pointList.element.replaceChild(pointComponent.element, editPointComponent.element);
+          document.removeEventListener('keydown', onEscKeyDown);
+        });
+
+        document.addEventListener('keydown', onEscKeyDown);
+        return editPointComponent;
+      };
+
+
+      pointButton.addEventListener('click', (evt) => {
+        evt.preventDefault();
+        const editPointComponent = newEditPointComponent();
+        this.#pointList.element.replaceChild(editPointComponent.element, pointComponent.element);
+      });
+
+      render(pointComponent, this.#pointList.element);
     }
   };
 }
