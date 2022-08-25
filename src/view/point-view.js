@@ -1,19 +1,16 @@
 import { createElement } from '../render.js';
 import {pointDate, pointTime} from '../utils.js';
 
-const createOffersList = (offers) => {
-  let result = '';
-  for (const offer of offers) {
-    result += `
+const createOffersList = (offers) => offers.map(
+  (offer) => `
       <li class="event__offer">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${offer.price}</span>
       </li>    
-    `;
-  }
-  return result;
-};
+    `
+).join('');
+
 
 const createPointTemplate = (point, offers, destination) => {
   const {type, basePrice, dateFrom, dateTo} = point;

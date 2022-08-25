@@ -2,45 +2,25 @@ import { createElement } from '../render.js';
 import {editPointDateTime} from '../utils.js';
 import { POINT_TYPES } from '../const.js';
 
-const createTypeListTemplate = () => {
-  let result = '';
-  for (const type of POINT_TYPES) {
-    result += `
-      <div class="event__type-item">
-        <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
-        <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
-      </div>
-    `;
-  }
-  return result;
-};
+const createTypeListTemplate = () => POINT_TYPES.map((type) =>
+  `<div class="event__type-item">
+      <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type.charAt(0).toUpperCase() + type.slice(1)}</label>
+   </div>`
+).join('');
 
-const createDestinationListTemplate = (destinationList) => {
-  let result = '';
-  for (const destination of destinationList) {
-    result += `
-      <option value="${destination}"></option>  
-    `;
-  }
-  return result;
-};
+const createDestinationListTemplate = (destinationList) => destinationList.map((destination) => `<option value="${destination}"></option> `).join('');
 
-const createOffersList = (offers) => {
-  let result = '';
-  for (const offer of offers) {
-    result += `
-      <div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-        <label class="event__offer-label" for="event-offer-seats-1">
-          <span class="event__offer-title">${offer.title}</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">${offer.price}</span>
-        </label>
-      </div>
-    `;
-  }
-  return result;
-};
+const createOffersList = (offers) => offers.map((offer) =>
+  `<div class="event__offer-selector">
+     <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
+     <label class="event__offer-label" for="event-offer-seats-1">
+       <span class="event__offer-title">${offer.title}</span>
+       &plus;&euro;&nbsp;
+       <span class="event__offer-price">${offer.price}</span>
+     </label>
+   </div>`
+).join('');
 
 const createEditPointemplate = (point, offers, destination, destinationList) => {
   const {type, basePrice, dateFrom, dateTo} = point;
