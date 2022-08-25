@@ -16,7 +16,7 @@ export default class TripEventsPresenter {
   init = (container, pointsModel) => {
     this.#pointsModel = pointsModel;
     this.#container = container;
-    this.#pointsBorder = [];//this.#pointsModel.points;
+    this.#pointsBorder = this.#pointsModel.points;
 
     if (this.#pointsBorder.length === 0) {
       render(new(NoPointsView), this.#container);
