@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import {pointDate, pointTime} from '../utils.js';
 
 const createOffersList = (offers) => offers.map(
@@ -46,23 +46,16 @@ const createPointTemplate = (point, offers, destination) => {
 };
 
 
-export default class PointView {
-  #element = null;
+export default class PointView extends AbstractView {
+
   constructor (point, offers, destination) {
+    super();
     this.point = point;
     this.offers = offers;
     this.destination = destination;
   }
 
-  #getTemplate() {
+  get template() {
     return createPointTemplate(this.point, this.offers, this.destination);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.#getTemplate());
-    }
-
-    return this.#element;
   }
 }

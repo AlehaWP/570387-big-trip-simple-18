@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 import { POINT_TYPES } from '../const.js';
 
 const createTypeListTemplate = () => POINT_TYPES.map((type) =>
@@ -139,21 +139,13 @@ const createAddPointTemplate = (destinationList) => (
 );
 
 
-export default class AddPointView {
-  #element = null;
+export default class AddPointView extends AbstractView {
   constructor (destinationList) {
+    super();
     this.destinationList = destinationList;
   }
 
-  #getTemplate() {
+  get template() {
     return createAddPointTemplate(this.destinationList);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.#getTemplate());
-    }
-
-    return this.#element;
   }
 }
