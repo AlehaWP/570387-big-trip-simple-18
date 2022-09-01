@@ -107,4 +107,15 @@ export default class EditPointView extends AbstractView {
   get template() {
     return createEditPointemplate(this.point, this.offers, this.destination, this.destinationList);
   }
+
+
+  addEditButtonClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#editButtonClickHandler);
+  };
+
+  #editButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 }

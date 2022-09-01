@@ -56,6 +56,18 @@ export default class PointView extends AbstractView {
   }
 
   get template() {
+    this._callback.test = 123;
     return createPointTemplate(this.point, this.offers, this.destination);
   }
+
+
+  addEditButtonClickHandler = (callback) => {
+    this._callback.click = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#editButtonClickHandler);
+  };
+
+  #editButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.click();
+  };
 }

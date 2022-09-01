@@ -33,37 +33,27 @@ export default class TripEventsPresenter {
 
     for (const point of this.#pointsBorder) {
       const pointComponent = new PointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point));
-      const pointButton = pointComponent.element.querySelector('.event__rollup-btn');
 
       const newEditPointComponent = () => {
         const editPointComponent = new EditPointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point),this.#pointsModel.destinationList);
-        const btn = editPointComponent.element.querySelector('.event__rollup-btn');
 
-        const replaceEditFormToCard = (evt) => {
-          evt.preventDefault();
+        const replaceEditFormToCard = () => {
           this.#pointList.element.replaceChild(pointComponent.element, editPointComponent.element);
         };
 
         const onEscKeyDown = (evt) => {
           if (evt.key === 'Escape' || evt.key === 'Esc') {
-            replaceEditFormToCard(evt);
+            replaceEditFormToCard();
             document.removeEventListener('keydown', onEscKeyDown);
           }
         };
 
-        btn.addEventListener('click', (evt) => {
-          evt.preventDefault(evt);
-          this.#pointList.element.replaceChild(pointComponent.element, editPointComponent.element);
-          document.removeEventListener('keydown', onEscKeyDown);
-        });
-
+        editPointComponent.addEditButtonClickHandler(replaceEditFormToCard);
         document.addEventListener('keydown', onEscKeyDown);
         return editPointComponent;
       };
 
-
-      pointButton.addEventListener('click', (evt) => {
-        evt.preventDefault();
+      pointComponent.addEditButtonClickHandler(() => {
         const editPointComponent = newEditPointComponent();
         this.#pointList.element.replaceChild(editPointComponent.element, pointComponent.element);
       });
