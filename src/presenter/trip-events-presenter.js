@@ -40,7 +40,7 @@ export default class TripEventsPresenter {
         const editPointComponent = new EditPointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point),this.#pointsModel.destinationList);
 
         const replaceEditFormToCard = () => {
-          this.#pointList.element.replaceChild(pointComponent.element, editPointComponent.element);
+          this.#pointsBoard.element.replaceChild(pointComponent.element, editPointComponent.element);
         };
 
         const onEscKeyDown = (evt) => {
