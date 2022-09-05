@@ -1,37 +1,39 @@
 import {render, RenderPosition} from '../framework/render.js';
 import SortView from '../view/sort-view.js';
-import PointListView from '../view/point-list-view.js';
+import PointsBoardView from '../view/points-board-view.js';
 import EditPointView from '../view/edit-point-view.js';
 import AddPointView from '../view/add-point-view';
 import PointView from '../view/point-view';
 import NoPointsView from '../view/no-points-view';
 
 export default class TripEventsPresenter {
-  #sort = null;
-  #pointList = null;
+
   #pointsModel = null;
   #container = null;
-  #pointsBorder = null;
+  #pointList = null;
 
-  init = (container, pointsModel) => {
+  #sort = new SortView();
+  #pointsBoard = new PointsBoardView();
+  #noPoints = new NoPointsView();
+
+  constructor (container, pointsModel) {
     this.#pointsModel = pointsModel;
     this.#container = container;
-    this.#pointsBorder = this.#pointsModel.points;
+    this.#pointList = this.#pointsModel.points;
+  }
 
-    if (this.#pointsBorder.length === 0) {
-      render(new(NoPointsView), this.#container);
+  init = () => {
+
+    if (this.#pointList.length === 0) {
+      this.#renderNoPoints();
       return;
     }
 
+    this.#renderSort();
+    this.#renderPointsBoard();
+    this.#renderAddPoint();
 
-    this.#sort = new SortView();
-    this.#pointList = new PointListView();
-    render(this.#sort, this.#container);
-    render(this.#pointList, this.#sort.element, RenderPosition.AFTEREND);
-    render(new AddPointView(this.#pointsModel.destinationList), this.#pointList.element);
-
-
-    for (const point of this.#pointsBorder) {
+    for (const point of this.#pointList) {
       const pointComponent = new PointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point));
 
       const newEditPointComponent = () => {
@@ -55,10 +57,30 @@ export default class TripEventsPresenter {
 
       pointComponent.addEditButtonClickHandler(() => {
         const editPointComponent = newEditPointComponent();
-        this.#pointList.element.replaceChild(editPointComponent.element, pointComponent.element);
+        this.#pointsBoard.element.replaceChild(editPointComponent.element, pointComponent.element);
       });
 
-      render(pointComponent, this.#pointList.element);
+      render(pointComponent, this.#pointsBoard.element);
     }
   };
+
+
+  #renderSort = () => {
+    render(this.#sort, this.#container);
+  };
+
+  #renderNoPoints = () => {
+    render(this.#noPoints, this.#container);
+  };
+
+  #renderPointsBoard = () => {
+    render(this.#pointsBoard, this.#sort.element, RenderPosition.AFTEREND);
+  };
+
+  #renderAddPoint = () => {
+    const addPoint = new AddPointView(this.#pointsModel.destinationList);
+    render(addPoint, this.#pointsBoard.element);
+  };
+
+
 }
