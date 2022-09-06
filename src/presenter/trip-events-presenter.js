@@ -31,8 +31,9 @@ export default class TripEventsPresenter {
       return;
     }
 
-    const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel);
+
     for (const point of pointList) {
+      const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel);
       pointPresenter.init(point);
     }
   };
