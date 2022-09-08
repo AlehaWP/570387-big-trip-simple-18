@@ -1,4 +1,4 @@
-import { render } from '../framework/render.js';
+import { render, replace, remove} from '../framework/render.js';
 
 import EditPointView from '../view/edit-point-view.js';
 import PointView from '../view/point-view';
@@ -9,21 +9,47 @@ export default class PointPresenter {
   #pointsModel = null;
   #pointComponent = null;
   #editPointComponent = null;
+  #resetPointsOnBoard = null;
 
-  constructor(container, pointsModel) {
+  constructor(container, pointsModel, resetPointsOnBoard) {
     this.#pointsContainer = container;
     this.#pointsModel = pointsModel;
+    this.#resetPointsOnBoard = resetPointsOnBoard;
   }
 
   init(point) {
+    const oldPointComponent = this.#pointComponent;
+    const oldEditPointComponent = this.#editPointComponent;
+
     this.#pointComponent = new PointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point));
     this.#editPointComponent = new EditPointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point), this.#pointsModel.destinationList);
 
-    this.#renderPoint();
+    if (oldPointComponent === null || oldEditPointComponent === null) {
+      this.#renderPoint();
+      return;
+    }
+
+    if (this.#pointsContainer.element.contains(oldPointComponent.element)) {
+      replace (this.#pointComponent, oldPointComponent);
+    }
+
+    if (this.#pointsContainer.element.contains(oldEditPointComponent.element)) {
+      replace (this.#editPointComponent, oldEditPointComponent);
+    }
+
+    remove (oldPointComponent);
+    remove (oldEditPointComponent);
   }
 
+  reset = () => {
+    if (this.#pointsContainer.element.contains(this.#editPointComponent.element)) {
+      console.log(2);
+      this.#replaceEditFormToCard();
+    }
+  };
+
   #replaceEditFormToCard = () => {
-    this.#pointsContainer.element.replaceChild(this.#pointComponent.element, this.#editPointComponent.element);
+    replace(this.#pointComponent, this.#editPointComponent);
   };
 
 
@@ -41,8 +67,9 @@ export default class PointPresenter {
 
   #renderPoint = () => {
     this.#pointComponent.addEditButtonClickHandler(() => {
+      this.#resetPointsOnBoard();
       this.#addEventEditPointComponent();
-      this.#pointsContainer.element.replaceChild(this.#editPointComponent.element, this.#pointComponent.element);
+      replace(this.#editPointComponent, this.#pointComponent);
     });
 
     render(this.#pointComponent, this.#pointsContainer.element);

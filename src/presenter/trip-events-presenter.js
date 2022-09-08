@@ -13,6 +13,7 @@ export default class TripEventsPresenter {
   #sort = new SortView();
   #pointsBoard = new PointsBoardView();
   #noPoints = new NoPointsView();
+  #pointsPresenter = new Map();
 
   constructor (container, pointsModel) {
     this.#pointsModel = pointsModel;
@@ -33,9 +34,16 @@ export default class TripEventsPresenter {
 
 
     for (const point of pointList) {
-      const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel);
+      const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel, this.#resetPointsOnBoard);
       pointPresenter.init(point);
+      this.#pointsPresenter.set(point.id, pointPresenter);
     }
+  };
+
+  #resetPointsOnBoard = () => {
+    this.#pointsPresenter.forEach((pointPresenter) => {
+      pointPresenter.reset();
+    });
   };
 
 
