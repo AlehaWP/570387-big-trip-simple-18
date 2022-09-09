@@ -8,11 +8,11 @@ const pageFiltersContainer = pageHeaderElement.querySelector('.trip-controls__fi
 const pageMainElement = document.querySelector('.page-main');
 const pageEventsContainer = pageMainElement.querySelector('.trip-events');
 
-const eventsPresenter = new TripEventsPresenter();
 const pointsModel = new PointsModel();
+const eventsPresenter = new TripEventsPresenter(pageEventsContainer, pointsModel);
 
 render(new FiltersView(), pageFiltersContainer);
 
-eventsPresenter.init(pageEventsContainer, pointsModel);
+eventsPresenter.init();
 
 

@@ -1,6 +1,7 @@
 import {getRandomInteger, randomElement } from '../utils.js';
 import {POINT_TYPES, POINT_COUNT} from '../const.js';
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 
 
 const getRandomType = () => randomElement(POINT_TYPES);
@@ -29,7 +30,7 @@ const offers = {
 export const generatePoint = () => {
   const startDate = generateDate();
   return {
-    id: getRandomInteger(1, POINT_COUNT),
+    id: nanoid(),
     basePrice: getRandomInteger(500, 5000),
     type: getRandomType(),
     dateFrom: startDate,
