@@ -43,7 +43,6 @@ export default class PointPresenter {
 
   reset = () => {
     if (this.#pointsContainer.element.contains(this.#editPointComponent.element)) {
-      console.log(2);
       this.#replaceEditFormToCard();
     }
   };
