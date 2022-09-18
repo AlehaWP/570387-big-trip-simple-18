@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import {editPointDateTime} from '../utils.js';
 import { POINT_TYPES } from '../const.js';
 
@@ -94,18 +94,18 @@ const createEditPointemplate = (point, offers, destination, destinationList) => 
 };
 
 
-export default class EditPointView extends AbstractView {
+export default class EditPointView extends AbstractStatefulView {
 
   constructor (point, offers, destination, destinationList) {
     super();
-    this.point = point;
+    this._state = point;
     this.offers = offers;
     this.destination = destination;
     this.destinationList = destinationList;
   }
 
   get template() {
-    return createEditPointemplate(this.point, this.offers, this.destination, this.destinationList);
+    return createEditPointemplate(this._state, this.offers, this.destination, this.destinationList);
   }
 
 
@@ -118,4 +118,7 @@ export default class EditPointView extends AbstractView {
     evt.preventDefault();
     this._callback.click();
   };
+
+  static parsePointToState = (point) => ({...point
+  });
 }
