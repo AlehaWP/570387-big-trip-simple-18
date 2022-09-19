@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {pointDate, pointTime} from '../utils.js';
+import {pointDate, pointTime, getDestinationById} from '../utils.js';
 
 const createOffersList = (offers) => offers.map(
   (offer) => `
@@ -48,11 +48,11 @@ const createPointTemplate = (point, offers, destination) => {
 
 export default class PointView extends AbstractView {
 
-  constructor (point, offers, destination) {
+  constructor (point, offers, destinationsList) {
     super();
     this.point = point;
     this.offers = offers;
-    this.destination = destination;
+    this.destination = getDestinationById(point.destination, destinationsList);
   }
 
   get template() {

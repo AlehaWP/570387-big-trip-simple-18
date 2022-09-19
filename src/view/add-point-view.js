@@ -8,15 +8,8 @@ const createTypeListTemplate = () => POINT_TYPES.map((type) =>
    </div>`
 ).join('');
 
-const createDestinationListTemplate = (destinationList) => {
-  let result = '';
-  for (const destination of destinationList) {
-    result += `
-      <option value="${destination}"></option>  
-    `;
-  }
-  return result;
-};
+
+const createDestinationListTemplate = (destinationList) => destinationList.map((item) => `<option value="${item.name}"></option> `).join('');
 
 const createAddPointTemplate = (destinationList) => (
   `<li class="trip-events__item">
@@ -140,12 +133,12 @@ const createAddPointTemplate = (destinationList) => (
 
 
 export default class AddPointView extends AbstractView {
-  constructor (destinationList) {
+  constructor (destinationsList) {
     super();
-    this.destinationList = destinationList;
+    this.destinationsList = destinationsList;
   }
 
   get template() {
-    return createAddPointTemplate(this.destinationList);
+    return createAddPointTemplate(this.destinationsList);
   }
 }

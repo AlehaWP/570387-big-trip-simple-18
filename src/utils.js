@@ -15,4 +15,9 @@ const pointDate = (dueDate) => dayjs(dueDate).format('MMM D');
 const editPointDateTime = (dueDate) => dayjs(dueDate).format('DD/MM/YYYY HH:MM');
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
-export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement};
+
+const getDestinationById = (id, destinationsList) => destinationsList.find((item) => item.id === id);
+
+const getOffersByType = (type, offersList) => offersList.filter((item) => item.type === type);
+
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, getDestinationById, getOffersByType};
