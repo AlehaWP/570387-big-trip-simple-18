@@ -36,10 +36,11 @@ const createOffersList = (offers) => offers.map((offer) =>
    </div>`).join('');
 
 
-const createEditPointemplate = (point, offers, destinationsList) => {
+const createEditPointemplate = (point, offersList, destinationsList) => {
   const {id, type, basePrice, dateFrom, dateTo} = point;
   const destination = getDestinationById(point.destination, destinationsList);
   const {name, description} = destination;
+  const offers = getOffersByType(point.type, offersList);
   return ` <li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
@@ -114,13 +115,13 @@ export default class EditPointView extends AbstractStatefulView {
   constructor (point, offersList, destinationsList) {
     super();
     this._setState(EditPointView.parsePointToState(point));
-    this.offers = getOffersByType(point.type, offersList);
+    this.offersList = offersList;
     this.destinationsList = destinationsList;
     this.#setEditFieldsHandlers();
   }
 
   get template() {
-    return createEditPointemplate(this._state, this.offers, this.destinationsList);
+    return createEditPointemplate(this._state, this.offersList, this.destinationsList);
   }
 
 
@@ -142,6 +143,7 @@ export default class EditPointView extends AbstractStatefulView {
 
   #setEditFieldsHandlers = () => {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#changeTypeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#changeDestinationHandler);
   };
 
   #changeTypeHandler = (evt) => {
@@ -154,7 +156,11 @@ export default class EditPointView extends AbstractStatefulView {
 
   #changeDestinationHandler = (evt) => {
     evt.preventDefault();
-    this._callback.click();
+    if (evt.target.value) {
+      this.updateElement({
+        destination: this.destinationsList.find((item) => item.name === evt.target.value).id,
+      });
+    }
   };
 
   static parsePointToState = (point) => ({...point});

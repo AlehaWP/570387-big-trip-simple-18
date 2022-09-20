@@ -60,7 +60,7 @@ export default class TripEventsPresenter {
   };
 
   #renderAddPoint = () => {
-    const addPoint = new AddPointView(this.#pointsModel.destinationsList);
+    const addPoint = new AddPointView(this.#pointsModel.offersList, this.#pointsModel.destinationsList);
     render(addPoint, this.#pointsBoard.element);
   };
 
