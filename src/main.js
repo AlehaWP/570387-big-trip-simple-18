@@ -11,7 +11,7 @@ const pageEventsContainer = pageMainElement.querySelector('.trip-events');
 const pointsModel = new PointsModel();
 const eventsPresenter = new TripEventsPresenter(pageEventsContainer, pointsModel);
 
-render(new FiltersView(), pageFiltersContainer);
+render(new FiltersView(pointsModel.filters), pageFiltersContainer);
 
 eventsPresenter.init();
 

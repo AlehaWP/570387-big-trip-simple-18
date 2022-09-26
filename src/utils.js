@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {FilterTypes} from './const.js';
 
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -15,4 +16,13 @@ const pointDate = (dueDate) => dayjs(dueDate).format('MMM D');
 const editPointDateTime = (dueDate) => dayjs(dueDate).format('DD/MM/YYYY HH:MM');
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
-export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement};
+
+const isFutureDate = (dateStart, dateEnd) => dayjs().isAfter(dateStart) || dayjs.isAfter(dateEnd);
+
+const filter = {
+  [FilterTypes.EVRYTHING]: (points) => points,
+  [FilterTypes.FUTURE]: (points) => points, //.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
+};
+
+
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter};
