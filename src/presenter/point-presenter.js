@@ -20,9 +20,10 @@ export default class PointPresenter {
   init(point) {
     const oldPointComponent = this.#pointComponent;
     const oldEditPointComponent = this.#editPointComponent;
+    const destinationsList = this.#pointsModel.destinationsList;
 
-    this.#pointComponent = new PointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point));
-    this.#editPointComponent = new EditPointView(point, this.#pointsModel.getOffers(point), this.#pointsModel.getDestination(point), this.#pointsModel.destinationList);
+    this.#pointComponent = new PointView(point, this.#pointsModel.getOffers(point), destinationsList);
+    this.#editPointComponent = new EditPointView(point, this.#pointsModel.offersList, destinationsList);
 
     if (oldPointComponent === null || oldEditPointComponent === null) {
       this.#renderPoint();
@@ -60,7 +61,7 @@ export default class PointPresenter {
   };
 
   #addEventEditPointComponent = () => {
-    this.#editPointComponent.addEditButtonClickHandler(this.#replaceEditFormToCard);
+    this.#editPointComponent.addRollUpButtonClickHandler(this.#replaceEditFormToCard);
     document.addEventListener('keydown', this.#onEscKeyDown);
   };
 

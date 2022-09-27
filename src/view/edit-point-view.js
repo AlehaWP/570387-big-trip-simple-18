@@ -1,5 +1,5 @@
-import AbstractView from '../framework/view/abstract-view.js';
-import {editPointDateTime} from '../utils.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
+import {editPointDateTime, getDestinationById, getOffersByType} from '../utils.js';
 import { POINT_TYPES } from '../const.js';
 
 const createTypeListTemplate = (id) => POINT_TYPES.map((type) =>
@@ -9,22 +9,38 @@ const createTypeListTemplate = (id) => POINT_TYPES.map((type) =>
    </div>`
 ).join('');
 
-const createDestinationListTemplate = (destinationList) => destinationList.map((destination) => `<option value="${destination}"></option> `).join('');
+const createdestinationsListTemplate = (destinationsList) => destinationsList.map((item) => `<option value="${item.name}"></option> `).join('');
 
-const createOffersList = (offers, id) => offers.map((offer) =>
+// const createOffersList = (offers) => {
+//   if (typeof offers !== 'undefined' ) {
+//     return offers.map((offer) => `<div class="event__offer-selector">
+//               <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-${offer.id}" type="checkbox" name="event-offer-seats">
+//               <label class="event__offer-label" for="event-offer-seats-${offer.id}">
+//                 <span class="event__offer-title">${offer.title}</span>
+//                 &plus;&euro;&nbsp;
+//                 <span class="event__offer-price">${offer.price}</span>
+//               </label>
+//             </div>`).join('');
+//   }
+//   return '';
+// };
+
+const createOffersList = (offers) => offers.map((offer) =>
   `<div class="event__offer-selector">
-     <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-${id}" type="checkbox" name="event-offer-seats">
-     <label class="event__offer-label" for="event-offer-seats-${id}">
+     <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-${offer.id}" type="checkbox" name="event-offer-seats">
+     <label class="event__offer-label" for="event-offer-seats-${offer.id}">
        <span class="event__offer-title">${offer.title}</span>
-       &plus;&euro;&nbsp;
+        &plus;&euro;&nbsp;
        <span class="event__offer-price">${offer.price}</span>
      </label>
-   </div>`
-).join('');
+   </div>`).join('');
 
-const createEditPointemplate = (point, offers, destination, destinationList) => {
+
+const createEditPointemplate = (point, offersList, destinationsList) => {
   const {id, type, basePrice, dateFrom, dateTo} = point;
+  const destination = getDestinationById(point.destination, destinationsList);
   const {name, description} = destination;
+  const offers = getOffersByType(point.type, offersList);
   return ` <li class="trip-events__item">
       <form class="event event--edit" action="#" method="post">
         <header class="event__header">
@@ -49,7 +65,7 @@ const createEditPointemplate = (point, offers, destination, destinationList) => 
             </label>
             <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="${name}" list="destination-list-${id}">
             <datalist id="destination-list-${id}">
-              ${createDestinationListTemplate(destinationList)}
+              ${createdestinationsListTemplate(destinationsList)}
             </datalist>
           </div>
 
@@ -80,7 +96,7 @@ const createEditPointemplate = (point, offers, destination, destinationList) => 
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
             <div class="event__available-offers">
-              ${createOffersList(offers, id)}
+              ${createOffersList(offers)}
             </div>
           </section>
 
@@ -94,28 +110,65 @@ const createEditPointemplate = (point, offers, destination, destinationList) => 
 };
 
 
-export default class EditPointView extends AbstractView {
+export default class EditPointView extends AbstractStatefulView {
 
-  constructor (point, offers, destination, destinationList) {
+  constructor (point, offersList, destinationsList) {
     super();
-    this.point = point;
-    this.offers = offers;
-    this.destination = destination;
-    this.destinationList = destinationList;
+    this._setState(EditPointView.parsePointToState(point));
+    this.offersList = offersList;
+    this.destinationsList = destinationsList;
+    this.#setEditFieldsHandlers();
   }
 
   get template() {
-    return createEditPointemplate(this.point, this.offers, this.destination, this.destinationList);
+    return createEditPointemplate(this._state, this.offersList, this.destinationsList);
   }
 
 
-  addEditButtonClickHandler = (callback) => {
+  addRollUpButtonClickHandler = (callback) => {
     this._callback.click = callback;
-    this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#editButtonClickHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#rollUpButtonClickHandler);
   };
 
-  #editButtonClickHandler = (evt) => {
+  #rollUpButtonClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.click();
+  };
+
+
+  _restoreHandlers = () => {
+    this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#rollUpButtonClickHandler);
+    this.#setEditFieldsHandlers();
+  };
+
+  #setEditFieldsHandlers = () => {
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#changeTypeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#changeDestinationHandler);
+  };
+
+  #changeTypeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      type: evt.target.value,
+    });
+  };
+
+
+  #changeDestinationHandler = (evt) => {
+    evt.preventDefault();
+    if (evt.target.value) {
+      this.updateElement({
+        destination: this.destinationsList.find((item) => item.name === evt.target.value).id,
+      });
+    }
+  };
+
+  static parsePointToState = (point) => ({...point});
+
+
+  static parseStateToTask = (state) => {
+    const point = {...state};
+
+    return point;
   };
 }

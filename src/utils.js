@@ -24,6 +24,7 @@ const filter = {
   [FilterTypes.FUTURE]: (points) => points.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
 };
 
+
 const getDestinationById = (id, destinationsList) => destinationsList.find((item) => item.id === id);
 
 const getOffersByType = (type, offersList) => offersList.filter((item) => item.type === type);
