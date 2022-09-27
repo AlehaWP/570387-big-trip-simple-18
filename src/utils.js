@@ -24,16 +24,13 @@ const filter = {
   [FilterTypes.FUTURE]: (points) => points.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
 };
 
-const updatePoint = (points, updatedPoint) => {
+const updatePoints = (points, updatedPoint) => {
   const index = points.findIndex((point) => point.id === updatedPoint.id);
   if (index === -1) {
     return;
   }
-  return [
-    ...points.slice(0, index),
-    updatedPoint,
-    ...points.slice(index + 1),
-  ];
+  points[index] = updatedPoint;
+  return points;
 };
 
 
@@ -46,4 +43,4 @@ const sortWayPointDay = (point1, point2) => dayjs(point1.dateFrom).diff(dayjs(po
 const sortWayPointPrice = (point1, point2) => (point2.basePrice - point1.basePrice);
 
 
-export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter, getDestinationById, getOffersByType, updatePoint, sortWayPointDay, sortWayPointPrice};
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter, getDestinationById, getOffersByType, updatePoints, sortWayPointDay, sortWayPointPrice};

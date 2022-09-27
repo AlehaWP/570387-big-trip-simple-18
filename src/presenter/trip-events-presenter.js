@@ -4,7 +4,7 @@ import PointsBoardView from '../view/points-board-view.js';
 import AddPointView from '../view/add-point-view';
 import NoPointsView from '../view/no-points-view';
 import PointPresenter from './point-presenter.js';
-import {updatePoint, sortWayPointDay, sortWayPointPrice} from '../utils.js';
+import {updatePoints, sortWayPointDay, sortWayPointPrice} from '../utils.js';
 import { SortTypes } from '../const.js';
 
 export default class TripEventsPresenter {
@@ -38,7 +38,7 @@ export default class TripEventsPresenter {
   };
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel, this.#handleWayPointChange, this.#resetPointsOnBoard);
+    const pointPresenter = new PointPresenter(this.#pointsBoard, this.#pointsModel, this.#handlePointChange, this.#resetPointsOnBoard);
     pointPresenter.init(point);
     this.#pointsPresenter.set(point.id, pointPresenter);
   };
@@ -90,8 +90,8 @@ export default class TripEventsPresenter {
   };
 
 
-  #handleWayPointChange = (updatedPoint) => {
-    this.#pointList = updatePoint(this.#pointList, updatedPoint);
+  #handlePointChange = (updatedPoint) => {
+    this.#pointList = updatePoints(this.#pointList, updatedPoint);
     this.#pointsPresenter.get(updatedPoint.id).init(updatedPoint);
   };
 

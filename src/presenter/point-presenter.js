@@ -25,6 +25,8 @@ export default class PointPresenter {
     const destinationsList = this.#pointsModel.destinationsList;
 
     this.#pointComponent = new PointView(point, this.#pointsModel.getOffers(point), destinationsList);
+    this.#pointComponent.addEditButtonClickHandler(this.#editButtonHandler);
+
     this.#editPointComponent = new EditPointView(point, this.#pointsModel.offersList, destinationsList);
     this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
@@ -68,13 +70,13 @@ export default class PointPresenter {
     document.addEventListener('keydown', this.#onEscKeyDown);
   };
 
-  #renderPoint = () => {
-    this.#pointComponent.addEditButtonClickHandler(() => {
-      this.#resetPointsOnBoard();
-      this.#addEventEditPointComponent();
-      replace(this.#editPointComponent, this.#pointComponent);
-    });
+  #editButtonHandler = () => {
+    this.#resetPointsOnBoard();
+    this.#addEventEditPointComponent();
+    replace(this.#editPointComponent, this.#pointComponent);
+  };
 
+  #renderPoint = () => {
     render(this.#pointComponent, this.#pointsContainer.element);
   };
 

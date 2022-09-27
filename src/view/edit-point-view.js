@@ -138,12 +138,14 @@ export default class EditPointView extends AbstractStatefulView {
 
   _restoreHandlers = () => {
     this.element.querySelector('.event__rollup-btn').addEventListener ('click', this.#rollUpButtonClickHandler);
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
     this.#setEditFieldsHandlers();
   };
 
   #setEditFieldsHandlers = () => {
     this.element.querySelector('.event__type-group').addEventListener('change', this.#changeTypeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#changeDestinationHandler);
+    this.element.querySelector('.event__input--price').addEventListener('change', this.#changePriceHandler);
   };
 
   #changeTypeHandler = (evt) => {
@@ -163,6 +165,14 @@ export default class EditPointView extends AbstractStatefulView {
     }
   };
 
+  #changePriceHandler = (evt) => {
+    evt.preventDefault();
+    this.updateElement({
+      basePrice: evt.target.value,
+    });
+  };
+
+
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
     this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
@@ -170,15 +180,12 @@ export default class EditPointView extends AbstractStatefulView {
 
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this._callback.formSubmit(this._state);
+    const point = EditPointView.parseStateToPoint(this._state);
+    this._callback.formSubmit(point);
   };
 
   static parsePointToState = (point) => ({...point});
 
 
-  static parseStateToTask = (state) => {
-    const point = {...state};
-
-    return point;
-  };
+  static parseStateToPoint = (state) => ({...state});
 }
