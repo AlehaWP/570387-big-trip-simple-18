@@ -163,6 +163,11 @@ export default class EditPointView extends AbstractStatefulView {
     }
   };
 
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.formSubmit(this._state);
+  };
+
   static parsePointToState = (point) => ({...point});
 
 

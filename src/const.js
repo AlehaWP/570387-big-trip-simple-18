@@ -5,7 +5,13 @@ const FilterTypes = {
   FUTURE: 'Future',
 };
 
-const SortTypes = ['day','event','time', 'price','offers'];
+const SortTypes = {
+  'DAY': 'day',
+  'EVENT': '',
+  'TIME': '',
+  'PRICE': 'price',
+  'OFFERS': ''
+};
 
 const POINT_COUNT = 20;
 

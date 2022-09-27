@@ -10,11 +10,13 @@ export default class PointPresenter {
   #pointComponent = null;
   #editPointComponent = null;
   #resetPointsOnBoard = null;
+  #changeData = null;
 
-  constructor(container, pointsModel, resetPointsOnBoard) {
+  constructor(container, pointsModel, changeData, resetPointsOnBoard) {
     this.#pointsContainer = container;
     this.#pointsModel = pointsModel;
     this.#resetPointsOnBoard = resetPointsOnBoard;
+    this.#changeData = changeData;
   }
 
   init(point) {
@@ -24,6 +26,7 @@ export default class PointPresenter {
 
     this.#pointComponent = new PointView(point, this.#pointsModel.getOffers(point), destinationsList);
     this.#editPointComponent = new EditPointView(point, this.#pointsModel.offersList, destinationsList);
+    this.#editPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
 
     if (oldPointComponent === null || oldEditPointComponent === null) {
       this.#renderPoint();
@@ -73,6 +76,11 @@ export default class PointPresenter {
     });
 
     render(this.#pointComponent, this.#pointsContainer.element);
+  };
+
+  #handleFormSubmit = (point) => {
+    this.#changeData(point);
+    this.#replaceEditFormToCard();
   };
 
 }
