@@ -17,11 +17,11 @@ const editPointDateTime = (dueDate) => dayjs(dueDate).format('DD/MM/YYYY HH:MM')
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
 
-const isFutureDate = (dateStart, dateEnd) => dayjs().isAfter(dateStart) || dayjs.isAfter(dateEnd);
+const isFutureDate = (dateStart, dateEnd) => dayjs().isBefore(dateStart) || dayjs().isBefore(dateEnd);
 
 const filter = {
-  [FilterTypes.EVRYTHING]: (points) => points,
-  [FilterTypes.FUTURE]: (points) => points, //.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
+  [FilterTypes.EVERYTHING]: (points) => points,
+  [FilterTypes.FUTURE]: (points) => points.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
 };
 
 

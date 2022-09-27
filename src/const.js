@@ -5,6 +5,8 @@ const FilterTypes = {
   FUTURE: 'Future',
 };
 
+const SortTypes = ['day','event','time', 'price','offers'];
+
 const POINT_COUNT = 20;
 
-export {POINT_TYPES, POINT_COUNT, FilterTypes};
+export {POINT_TYPES, POINT_COUNT, FilterTypes, SortTypes};

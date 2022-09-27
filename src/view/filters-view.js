@@ -2,13 +2,13 @@ import AbstractView from '../framework/view/abstract-view.js';
 
 
 const createFilters = (filters) => filters.map(
-  ({name, enabled} ) => (
+  ({name, enabled}, index ) => (
     `<div class="trip-filters__filter">
-      <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${name}" ${enabled ? 'disabled' : ''}>
-      <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
+      <input id="filter-${name}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="${name}" ${ enabled ? '' : 'disabled' } ${index === 0 ? 'checked' : ''}>
+      <label class="trip-filters__filter-label" for="filter-everything">${name}</label>
      </div>`
   )
-);
+).join('');
 
 const createFiltersTemplate = (filters) => (
   `<form class="trip-filters" action="#" method="get">
@@ -27,6 +27,7 @@ export default class FiltersView extends AbstractView {
   }
 
   get template() {
+    // console.log(this.#filters);
     return createFiltersTemplate(this.#filters);
   }
 }
