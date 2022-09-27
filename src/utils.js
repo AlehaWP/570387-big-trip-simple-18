@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import {FilterTypes} from './const.js';
 
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -16,8 +17,17 @@ const editPointDateTime = (dueDate) => dayjs(dueDate).format('DD/MM/YYYY HH:MM')
 const pointTime = (dueDate) => dayjs(dueDate).format('HH:MM');
 
 
+const isFutureDate = (dateStart, dateEnd) => dayjs().isBefore(dateStart) || dayjs().isBefore(dateEnd);
+
+const filter = {
+  [FilterTypes.EVERYTHING]: (points) => points,
+  [FilterTypes.FUTURE]: (points) => points.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
+};
+
+
 const getDestinationById = (id, destinationsList) => destinationsList.find((item) => item.id === id);
 
 const getOffersByType = (type, offersList) => offersList.filter((item) => item.type === type);
 
-export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, getDestinationById, getOffersByType};
+
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter, getDestinationById, getOffersByType};
