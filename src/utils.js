@@ -24,5 +24,9 @@ const filter = {
   [FilterTypes.FUTURE]: (points) => points.filter((point) => isFutureDate(point.dateFrom, point.dateTo))
 };
 
+const getDestinationById = (id, destinationsList) => destinationsList.find((item) => item.id === id);
 
-export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter};
+const getOffersByType = (type, offersList) => offersList.filter((item) => item.type === type);
+
+
+export {getRandomInteger, pointDate, pointTime, editPointDateTime, randomElement, filter, getDestinationById, getOffersByType};
