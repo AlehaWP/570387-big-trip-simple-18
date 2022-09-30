@@ -231,7 +231,6 @@ export default class EditPointView extends AbstractStatefulView {
     }
   };
 
-
   static parsePointToState = (point) => ({...point});
 
 
